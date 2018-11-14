@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1542199899 source:d:\2018-2019\u.e_1\projet\prog\main.c
+	"menu.h"
+
+1542149785 d:\2018-2019\u.e_1\projet\prog\menu.h
+	"actions.h"
+
+1542207388 source:d:\2018-2019\u.e_1\projet\prog\menu.c
+	"menu.h"
+
+1542149054 d:\2018-2019\u.e_1\projet\prog\donnees.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	<math.h>
+
+1542145341 d:\2018-2019\u.e_1\projet\prog\actions.h
+	"donnees.h"
+
+1542208800 source:d:\2018-2019\u.e_1\projet\prog\donnees.c
+	"donnees.h"
+	"actions.h"
+
+1542207594 source:d:\2018-2019\u.e_1\projet\prog\actions.c
+	"actions.h"
+

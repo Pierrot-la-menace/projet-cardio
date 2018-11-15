@@ -1,0 +1,2 @@
+int choisirmenu();
+void DessinCoeur();

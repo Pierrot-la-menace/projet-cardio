@@ -5,11 +5,11 @@ import java.lang.System;
 //declare
 PrintWriter output;                                      //initialisation du port serie                                  
 Serial udSerial;                                         //initialisation pour ecrire dans un fichier externe 
-long timeStamp = OL;
+long timeStamp = 0L;
 
 void setup() {
    udSerial = new Serial(this, Serial.list()[0], 9600);     //recherche du port connecté a la Arduino
-   output = createWriter ("Battements.csv");                //creation du fichiers "battements.csv"              
+   output = createWriter("Battements.csv");                //creation du fichiers "battements.csv"              
 }
 
  void draw() {

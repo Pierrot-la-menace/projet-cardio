@@ -18,7 +18,7 @@ void setup() {
      delay(200);                                            //delai de 200 millisecondes
        if (SenVal != null) {                                  // si la Arduino envoi des valeurs
          timeStamp = System.currentTimeMillis() / 1000;
-         output.println(timeStamp.toString()+";"+SenVal);              //ecriture des données dans le fichiers "Battements.csv"
+         output.println(timeStamp+";"+SenVal);              //ecriture des données dans le fichiers "Battements.csv"
          output.flush();
          delay(200);                                          //delai de 200 millisecondes
         }

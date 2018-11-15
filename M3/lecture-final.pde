@@ -26,7 +26,7 @@ void setup() {
    switch(key)
    {
      case 'e':                                             //definition de la touche 'e'
-     output.flush();                                       //fonction flush()                                            //definitionde la touche 'p'
+     output.flush();                                       //fonction flush()                             
      output.close();                                       //fermeture du programme
      exit();
      break;

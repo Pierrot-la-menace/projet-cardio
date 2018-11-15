@@ -1,8 +1,14 @@
+/* donnees.c
+
+Contient toutes les fonctions pour la manipulation des données
+
+*/
 #include "donnees.h"
 #include "actions.h"
 
 long convertirStringtoTS()
 {
+    //déclaration des variable
     time_t TS;
     struct tm tm;
     long annee = 0L, mois = 0L, jour = 0L, heure = 0L, minute = 0L, seconde = 0L, timeStamp = 0L;
@@ -10,24 +16,31 @@ long convertirStringtoTS()
 	{ 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334},
 	{ 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335}};
 
-	time(&TS);
-    tm = *localtime(&TS);
+	time(&TS); //retour le TimeStamp du système
+    tm = *localtime(&TS); //retourne la structure tm à partir du TimeStamp
 
-    printf("Année [%d]: ", tm.tm_year + 1900);
+    printf("Année [%d]: ", tm.tm_year + 1900); //tm.tm_year retourne le nombre d'années depuis 1900
     annee = scanfAL(tm.tm_year + 1900);
-    printf("Mois [%d]: ", tm.tm_mon + 1);
+    printf("Mois [%d]: ", tm.tm_mon + 1);//tm.tm_mon retourne le nombre de mois écoulés depuis le début de l'année (0 - 11)
     mois = scanfAL(tm.tm_mon + 1);
-    printf("Jour [%d]: ", tm.tm_mday + 1);
-    jour = scanfAL(tm.tm_mday + 1);
-    printf("Heure [%d]: ", tm.tm_hour);
+    printf("Jour [%d]: ", tm.tm_mday);//tm.tm_mday retourne le jour du mois (1 - 31)
+    jour = scanfAL(tm.tm_mday);
+    printf("Heure [%d]: ", tm.tm_hour);//tm.tm_hour retourne les heures (0 - 23)
     heure = scanfAL(tm.tm_hour);
-    printf("Minute [%d]: ", tm.tm_min);
+    printf("Minute [%d]: ", tm.tm_min);//tm.tm_min retourne les minutes (0 - 59)
     minute = scanfAL(tm.tm_min);
-    printf("Seconde [%d]: ", tm.tm_sec);
+    printf("Seconde [%d]: ", tm.tm_sec);//tm.tm_hour retourne les secondes (0 - 59)
     seconde = scanfAL(tm.tm_sec);
 
+    //On vérifie que l'utilisateur n'a pas rentré n'importe quoi
     if(annee >= 1970 && 1 <= mois && mois <= 12 && 1 <= jour && jour <= 31 && 0 <= heure && heure <= 23 && 0 <= minute && minute <= 59 && 0 <= seconde && seconde <= 59)
     {
+        /* Calcul du TimeStamp
+        Nombre de seconde dans :
+         - 1 année : 31536000
+         - 1 jour : 86400
+                                */
+
         annee = annee - 1970;
 
         timeStamp = (jour - 1) * 86400;
@@ -38,9 +51,9 @@ long convertirStringtoTS()
 
         timeStamp = timeStamp + seconde;
 
-        timeStamp = (timeStamp + annee * 31536000 + round(((double)annee/4) - 0.1) * 86400) - 3600;
+        timeStamp = (timeStamp + annee * 31536000 + round(((double)annee/4) - 0.1) * 86400) - 3600; //prise en compte des années bissextiles depuis 1970 plus retirer une heure de décalage (On a 1 heure d'avance par rapport à l'UTC)
 
-        if((annee - 2)%4 == 0)
+        if((annee - 2)%4 == 0) //si année bissextiles
         {
             timeStamp = timeStamp + (NB_JOUR_MOIS[1][mois - 1] * 86400);
         }
@@ -59,6 +72,7 @@ long convertirStringtoTS()
 
 void scanfAS(char *buf, char *defaut)
 {
+    //fonction home-made qui permet de retourner une chaîne par défaut si la chaîne d'entrée est vide
     fflush(stdin);
     gets(buf);
 
@@ -77,6 +91,8 @@ void scanfAS(char *buf, char *defaut)
 
 int scanfAI(int defaut)
 {
+    //fonction home-made qui permet de retourner un integer par défaut si la chaîne d'entrée est vide
+
     char buf[255];
 
     fflush(stdin);
@@ -85,18 +101,20 @@ int scanfAI(int defaut)
     if(strlen(buf) == 0)
     {
         if(defaut != -1)
-            return (long)defaut;
+            return defaut;
         else
-            return 0L;
+            return 0;
     }
     else
     {
-       return (long)atoi(buf);
+       return atoi(buf);
     }
 }
 
 long scanfAL(int defaut)
 {
+    //fonction home-made qui permet de retourner un long par défaut si la chaîne d'entrée est vide
+
     char buf[255];
 
     fflush(stdin);
@@ -117,6 +135,11 @@ long scanfAL(int defaut)
 
 Donnees* chargerDonnees(char **filedef)
 {
+    /*Fonction qui charge les données
+      Le double pointeur permet la modification du choix par défaut*/
+
+
+    //déclaration variables
     char file[255], caractere;
     FILE* fichier = NULL;
     Donnees* donnees = NULL;
@@ -124,10 +147,11 @@ Donnees* chargerDonnees(char **filedef)
     int i = 0, taille = 0, poul = 0;
 
 
-    if(*filedef != NULL)
+    if(*filedef != NULL) //si le choix par défaut n'est pas nul
     {
        printf("Entrez le nom du fichier [defaut : %s] : ", *filedef);
-       scanfAS(file, *filedef);
+
+       scanfAS(file, *filedef); //on demande le nom du fichier
 
        if(file == NULL)
        {
@@ -137,7 +161,7 @@ Donnees* chargerDonnees(char **filedef)
           exit(1);
        }
 
-       if(realloc(*filedef, sizeof(char)*strlen(file)) == NULL)
+       if(realloc(*filedef, sizeof(char)*strlen(file)) == NULL) //on réalloue au cas où le nom change
        {
           system("CLS");
           system("COLOR 4");
@@ -151,7 +175,7 @@ Donnees* chargerDonnees(char **filedef)
     {
         printf("Entrez le nom du fichier : ");
 
-        scanfAS(file, NULL);
+        scanfAS(file, NULL); //on demande le nom du fichier
 
         if(file[0] == '0')
         {
@@ -161,7 +185,7 @@ Donnees* chargerDonnees(char **filedef)
           exit(1);
         }
 
-        *filedef = malloc(sizeof(char)*strlen(file));
+        *filedef = malloc(sizeof(char)*strlen(file)); //on alloue la mémoire pour stocker le nom
         if(filedef == NULL)
         {
           system("CLS");
@@ -176,17 +200,18 @@ Donnees* chargerDonnees(char **filedef)
 
     printf("Chargement des données...\n");
 
-    fichier = fopen(*filedef, "r");
+    fichier = fopen(*filedef, "r"); //tentative d'ouverture du fichier
 
     if(fichier == NULL)
     {
         system("CLS");
         system("COLOR 4");
         printf("Chargement des données...\n");
-        printf("Erreur : impossible d'ouvrier le fichier %s\n", file);
+        printf("Erreur : impossible d'ouvrir le fichier %s\n", file);
         exit(1);
     }
 
+    //on compte le nombre de ligne
     do
     {
         caractere = fgetc(fichier);
@@ -197,9 +222,8 @@ Donnees* chargerDonnees(char **filedef)
         }
 
     }while(caractere != EOF);
-    taille++;
 
-    if(taille == 0)
+    if(taille == 0) //si le fichier est vide
     {
         fclose(fichier);
         system("CLS");
@@ -210,9 +234,11 @@ Donnees* chargerDonnees(char **filedef)
         return NULL;
     }
 
-    fseek(fichier, 0, SEEK_SET);
+    taille++; //ne pas oublier d'incrémenter car la taille commence à 0
 
-    donnees = malloc(taille * sizeof(Donnees));
+    fseek(fichier, 0, SEEK_SET); //retour début du fichier
+
+    donnees = malloc(taille * sizeof(Donnees)); //on  alloue la mémoire nécessaire pour stocker les données
     if(donnees == NULL)
     {
         system("CLS");
@@ -224,8 +250,9 @@ Donnees* chargerDonnees(char **filedef)
 
     while(i < taille)
     {
+        //on parse le fichier
         fscanf(fichier, "%ld;%ld;%d", &timestamp, &millis, &poul);
-        if(timestamp ==  donnees[i-1].date)
+        if(timestamp ==  donnees[i-1].date) //si il y a une erreur de parsing la fonction renvoie la même ligne. Et comme on ne peut avoir deux fois le même TimeStamp
         {
             system("CLS");
             system("COLOR 4");
@@ -233,6 +260,7 @@ Donnees* chargerDonnees(char **filedef)
             printf("Erreur parsing du fichier ligne %d !", i);
             exit(1);
         }
+        //on set les données
         donnees[i].date = timestamp;
         donnees[i].millis = millis;
         donnees[i].pouls = poul;
@@ -240,13 +268,14 @@ Donnees* chargerDonnees(char **filedef)
         i++;
     }
 
-    fclose(fichier);
+    fclose(fichier); //fermeture du fichier
 
-    return donnees;
+    return donnees; //on retourne le pointeur
 }
 
 void afficherDonnees(Donnees *donnees) {
 
+    /* Fonction qui affiche tout ce qui a dans le pointeur passé en paramètre via une boucle*/
     int i = 0;
 
     while(i < donnees[0].lignes)
@@ -255,7 +284,7 @@ void afficherDonnees(Donnees *donnees) {
         convertirTStoDate(donnees[i].date, buffer);
         printf("Date et heure : %s\n", buffer);
         printf("Moment execution Arduino : %ld\n", donnees[i].millis);
-        printf("Poul enregistré : %d\n\n", donnees[i].pouls);
+        printf("Pouls enregistré : %d\n\n", donnees[i].pouls);
         i++;
     }
 
@@ -264,7 +293,10 @@ void afficherDonnees(Donnees *donnees) {
 
 void triDate(Donnees *donnees)
 {
+    //Algorithme de tri à bulle
+
     int taille = donnees[0].lignes, tab_trie = 0;
+
     while(tab_trie == 0)
     {
         tab_trie = 1;
@@ -272,6 +304,7 @@ void triDate(Donnees *donnees)
         {
             if(donnees[i].date > donnees[i+1].date)
             {
+                //Inversion des deux cases
                 long tmp1 = donnees[i].date;
                 int tmp2 = donnees[i].lignes;
                 long tmp3 = donnees[i].millis;
@@ -295,6 +328,8 @@ void triDate(Donnees *donnees)
 
 void swap(Donnees *donnees, int index, int indexf)
 {
+    //Fonction qui inverse les données pour le tri rapide
+
     long tmp1 = donnees[index].date;
     int tmp2 = donnees[index].lignes;
     long tmp3 = donnees[index].millis;
@@ -313,6 +348,8 @@ void swap(Donnees *donnees, int index, int indexf)
 
 int partition(Donnees *donnees, int deb, int fin)
 {
+    //Fonction qui fait partie de l'algorithme de tri rapide
+
     int compt = deb;
     Donnees pivot = donnees[deb];
     int i = 0;
@@ -331,6 +368,7 @@ int partition(Donnees *donnees, int deb, int fin)
 
 void tri_rapide(Donnees *donnees, int debut, int fin)
 {
+    //Fonction récursive principale du tri rapide
     int pivot = 0;
     if(debut < fin)
     {
@@ -342,27 +380,33 @@ void tri_rapide(Donnees *donnees, int debut, int fin)
 
 void tri_Poul(Donnees *donnees)
 {
+    //Fonction de lancement du tri rapide
     tri_rapide(donnees, 0, donnees[0].lignes - 1);
 }
 
 Donnees* recherchePosterieur(Donnees* donnees)
 {
+    //Permet de réaliser la recherche pour toutes les données postérieur à une date
+
+    //déclaration des variables
     int i = 0, j = 0;
     Donnees *donnees2 = NULL, *donnees3 = NULL;
     long TS;
 
     printf("Postérieur à ?\n");
 
-    TS = convertirStringtoTS();
+    TS = convertirStringtoTS(); //on demande la date
 
     if(TS == 0L)
     {
+        //si la fonction renvoie OL, cela signifie que la date n'est pas correcte. recherchePosterieur renvoie donc NULL
         printf("Date invalide\n");
     }
     else
     {
-        donnees2 = malloc(donnees[0].lignes * sizeof(Donnees));
-        donnees3 = malloc(donnees[0].lignes * sizeof(Donnees));
+        //on copie les données pour ne pas affecter les données qui sont chargées.
+        donnees2 = malloc(donnees[0].lignes * sizeof(Donnees)); //contient la copie
+        donnees3 = malloc(donnees[0].lignes * sizeof(Donnees)); //contient le final
 
         if(donnees2 == NULL || donnees3 == NULL)
         {
@@ -384,9 +428,9 @@ Donnees* recherchePosterieur(Donnees* donnees)
 
         i = 0;
 
-        triDate(donnees2);
+        triDate(donnees2); //on tri par date pour être sûr et rendre la fonction plus efficace
 
-        while(i < donnees2[0].lignes)
+        while(i < donnees2[0].lignes) //on regarde le nombre de données qui correspondent aux critères et on les copies dans donnees3
         {
             if(donnees2[i].date > TS)
             {
@@ -399,15 +443,15 @@ Donnees* recherchePosterieur(Donnees* donnees)
             i++;
         }
 
-        free(donnees2);
+        free(donnees2); //donnees2 devenue inutile
 
-        if(j == 0)
+        if(j == 0) //si aucune entrée, on libère donnee3 et on renvoie NULL
         {
             free(donnees3);
             return NULL;
         }
 
-        if(realloc(donnees3, j * sizeof(Donnees)) == NULL)
+        if(realloc(donnees3, j * sizeof(Donnees)) == NULL) //on realloue la bonne quantité de mémoire
         {
             system("CLS");
             system("COLOR 4");
@@ -418,7 +462,7 @@ Donnees* recherchePosterieur(Donnees* donnees)
 
         i = 0;
 
-        while(i < j)
+        while(i < j) //on set bien la bonne longueur sur donnee3
         {
             donnees3[i].lignes = j;
             i++;
@@ -429,6 +473,7 @@ Donnees* recherchePosterieur(Donnees* donnees)
 
 Donnees* rechercheAnterieur(Donnees* donnees)
 {
+    //Même fonction ma pour les données qui sont antérieurs
     int i = 0, j = 0;
     Donnees *donnees2 = NULL, *donnees3 = NULL;
     long TS;
@@ -510,6 +555,9 @@ Donnees* rechercheAnterieur(Donnees* donnees)
 }
 
 Donnees* rechercheLaps(Donnees* donnees) {
+
+    //Même fonction ma pour les données qui sont comprise dans laps de temps
+
     int i = 0, j = 0;
     Donnees *donnees2 = NULL, *donnees3 = NULL;
     long TS, TS2;

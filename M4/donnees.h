@@ -1,3 +1,4 @@
+//on inclue toutes bibliothèques nécessaires
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,6 +8,7 @@
 #ifndef DONNEES_H_INCLUDED
 #define DONNEES_H_INCLUDED
 
+//contient la structure données
 typedef struct {
 
     long date;
@@ -16,6 +18,7 @@ typedef struct {
 
 }Donnees;
 
+//contient tout les prototypes nécessaire à la manipulation des données
 long convertirStringtoTS();
 void scanfAS(char*, char*);
 int scanfAI(int);

@@ -1,26 +1,27 @@
 #define temps 50
-#include "param.h" 
+#include "param.h" /*Permet de savoir quel mode d'éclairage des LEDs l'utilisateur a choisit
+                     et quelle LED il a choisit d'allumer s'il a choisit le mode n°5*/
 
-void toutes_leds()
+void toutes_leds() //Fonction permettant de faire clignoter toutes les LEDs en fonction du coeur
 {
 
-  int led_rouge[]={2,3,4,5,6,7,8,9,10,11};
+  int led_rouge[]={2,3,4,5,6,7,8,9,10,11};//Déclare toutes les pins numériques utilisés
  
   int i = 0;
    for(i = 0; i < 10; i++)
    {
-    digitalWrite(led_rouge[i], 1);
+    digitalWrite(led_rouge[i], 1);// La valeur 1 correspond à HIGH
    }
    delay(temps);
 
   for(i = 0; i < 10; i++)
   {
-    digitalWrite(led_rouge[i], 0);
+    digitalWrite(led_rouge[i], 0);//La valeur 0 correspond à LOW
   }
  
 }
 
-void chenille()
+void chenille()//Fonction permettant de faire clignoter les LEDs en mode chenille
 {
  int i = 0;
  int led_rouge[]={2,3,4,5,6,7,8,9,10,11};
@@ -35,7 +36,7 @@ void chenille()
   }
 }
 
-void led_sur_deux()
+void led_sur_deux()//Fonction permettant de faire clignoter une LED sur deux
 {
   int led_rouge[]={2,3,4,5,6,7,8,9,10,11};
  
@@ -68,7 +69,7 @@ void led_sur_deux()
 
 }
 
-void led_sur_trois()
+void led_sur_trois()//Fonction permettant de faire clignoter une LED sur trois
 {
   int led_rouge[]={2,3,4,5,6,7,8,9,10,11};
  
@@ -104,7 +105,7 @@ void led_sur_trois()
 
 }
 
-void Une_LED_au_choix()
+void Une_LED_au_choix()//Fonction permettant de faire clignoter une LED choisit par l'utilisateur
 {
   int led_rouge[]={2,3,4,5,6,7,8,9,10,11};
 

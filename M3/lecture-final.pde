@@ -4,6 +4,7 @@ import processing.serial.*;                              //importation de la bib
 //declare
 PrintWriter output;                                      //initialisation du port serie                                  
 Serial udSerial;                                         //initialisation pour ecrire dans un fichier externe 
+Date d = NULL;
 
 void setup() {
    udSerial = new Serial(this, Serial.list()[0], 9600);     //recherche du port connecté a la Arduino
@@ -15,7 +16,8 @@ void setup() {
      String SenVal = udSerial.readString();                 //le port série lit les données
      delay(200);                                            //delai de 200 millisecondes
        if (SenVal != null) {                                  // si la Arduino envoi des valeurs
-         output.println(SenVal);                              //ecriture des données dans le fichiers "Battements.csv"
+         d = new Date();
+         output.println(d.getTime()+";"+SenVal);              //ecriture des données dans le fichiers "Battements.csv"
          delay(200);                                          //delai de 200 millisecondes
         }
     }

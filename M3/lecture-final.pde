@@ -19,6 +19,7 @@ void setup() {
        if (SenVal != null) {                                  // si la Arduino envoi des valeurs
          timeStamp = System.currentTimeMillis() / 1000;
          output.println(timeStamp.toString()+";"+SenVal);              //ecriture des données dans le fichiers "Battements.csv"
+         output.flush();
          delay(200);                                          //delai de 200 millisecondes
         }
     }
@@ -28,8 +29,7 @@ void setup() {
  
    switch(key)
    {
-     case 'e':                                             //definition de la touche 'e'
-     output.flush();                                       //fonction flush()                             
+     case 'e':                                             //definition de la touche 'e'                           
      output.close();                                       //fermeture du programme
      exit();
      break;

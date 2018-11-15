@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-void DessinCoeur()
+void DessinCoeur()//Fonction permettant d'afficher le dessin de coeur et le dessin du menu
 {
 printf("\n          |  \\ \\ | |/ /                      \n");
 printf("          |  |\\ `' ' /                        \n");
@@ -29,7 +29,7 @@ printf("                  aorta                        \n\n");
 
 
 
-int choisirmenu()
+int choisirmenu()//Fonction permettant de faire choisir pa l'utilisateur le mode d'éclairage des LEDs
 {
     int resultat = 0;
 

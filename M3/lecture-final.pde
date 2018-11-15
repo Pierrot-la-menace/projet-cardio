@@ -1,6 +1,7 @@
 //From Arduino to Processing to Txt or cvs etc.
 //import
 import processing.serial.*;                              //importation de la bibliothèque processing.serial
+import java.lang.System;
 //declare
 PrintWriter output;                                      //initialisation du port serie                                  
 Serial udSerial;                                         //initialisation pour ecrire dans un fichier externe 
@@ -16,7 +17,7 @@ void setup() {
      String SenVal = udSerial.readString();                 //le port série lit les données
      delay(200);                                            //delai de 200 millisecondes
        if (SenVal != null) {                                  // si la Arduino envoi des valeurs
-         timeStamp = currentTimeMillis() / 1000;
+         timeStamp = System.currentTimeMillis() / 1000;
          output.println(timeStamp+";"+SenVal);              //ecriture des données dans le fichiers "Battements.csv"
          delay(200);                                          //delai de 200 millisecondes
         }

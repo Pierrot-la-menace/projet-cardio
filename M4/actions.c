@@ -86,6 +86,42 @@ int moyennePouls(Donnees *donnees)
     return moy;
 }
 
+void inverser(Donnees *donnees)
+{
+    Donnees* donnees2 = NULL;
+    int i = 0, j = 0, taille = donnees[0].lignes;
+
+    donnees2 = malloc(sizeof(Donnees) * taille);
+
+
+    if(donnees2 == NULL)
+    {
+        system("CLS");
+        system("COLOR 4");
+        printf("Copie des données...\n");
+        printf("Erreur allocation variable !");
+        exit(1);
+    }
+
+    j = taille - 1;
+    while(i < taille)
+    {
+        donnees2[i] = donnees[j];
+        i++;
+        j--;
+    }
+
+    i = 0;
+
+    while(i < taille)
+    {
+        donnees[i] = donnees2[i];
+        i++;
+    }
+
+    free(donnees2);
+}
+
 void tri(Donnees* donnees)
 {
     //fonction qui demande le tri
@@ -106,16 +142,28 @@ void tri(Donnees* donnees)
     if(strcmp(type, "date") == 0)
     {
         triDate(donnees);
-        printf("Données triées !\n");
     }
     else if(strcmp(type, "pouls") == 0)
     {
         tri_Poul(donnees);
-        printf("Données triées !\n");
     }
     else
     {
+        i = 0;
         printf("Opération invalide\n");
+    }
+
+    if(i != 0)
+    {
+        printf("Ordre croissant ou décroissant ? (défaut : croissant) ");
+        scanfAS(type, "croissant");
+
+        if(strcmp(type, "décroissant") == 0)
+        {
+            triDate(donnees);
+        }
+
+        printf("Données triées !\n");
     }
 }
 

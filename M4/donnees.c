@@ -143,7 +143,7 @@ Donnees* chargerDonnees(char **filedef)
     char file[255], caractere;
     FILE* fichier = NULL;
     Donnees* donnees = NULL;
-    long timestamp = 0L, millis = 0L;
+    long timestamp = 0L, millis = 0L, timestampDebut = 0L;
     int i = 0, taille = 0, poul = 0;
 
 
@@ -234,11 +234,10 @@ Donnees* chargerDonnees(char **filedef)
         return NULL;
     }
 
-    taille++; //ne pas oublier d'incrémenter car la taille commence à 0
-
     fseek(fichier, 0, SEEK_SET); //retour début du fichier
 
     donnees = malloc(taille * sizeof(Donnees)); //on  alloue la mémoire nécessaire pour stocker les données
+
     if(donnees == NULL)
     {
         system("CLS");
@@ -248,23 +247,19 @@ Donnees* chargerDonnees(char **filedef)
         exit(1);
     }
 
+    fscanf(fichier, "%ld;;", &timestampDebut);
     while(i < taille)
     {
         //on parse le fichier
-        fscanf(fichier, "%ld;%ld;%d", &timestamp, &millis, &poul);
-        if(timestamp ==  donnees[i-1].date) //si il y a une erreur de parsing la fonction renvoie la même ligne. Et comme on ne peut avoir deux fois le même TimeStamp
-        {
-            system("CLS");
-            system("COLOR 4");
-            printf("Chargement des données...\n");
-            printf("Erreur parsing du fichier ligne %d !", i);
-            exit(1);
-        }
-        //on set les données
+        fscanf(fichier, "%ld;%d;", &millis, &poul);
+        timestamp = timestampDebut + (long)round((double)millis/1000);
+
+       //on set les données
         donnees[i].date = timestamp;
         donnees[i].millis = millis;
         donnees[i].pouls = poul;
         donnees[i].lignes = taille;
+
         i++;
     }
 

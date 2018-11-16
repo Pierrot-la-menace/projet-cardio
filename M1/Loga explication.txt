@@ -1,7 +1,0 @@
-Le programme arduino analyse la valeur de la broche A0 sur laquelle est branchée le capteur cardiaque.
-
-Lorsque cette valeur est superieur au seuil (determiné par la position du potentiometre en A1) on note dans la variable temps1 le temps correspondant au max de la pulsation.
-
-On joue ensuite l'animation determinée par param.h puis on envoi sur le port serie le nombre de millisecondes depuis le demarrage de l arduino puis le rythm cardiaque (= a 60000/(temps1-temps2)) au formate .csv.
-
-La variable temps2 prend ensuite la valeur de temps1 pour preparer une nouvelle boucle et calculer le prochain delta t (temps1-temps2)

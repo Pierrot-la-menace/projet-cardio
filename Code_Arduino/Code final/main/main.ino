@@ -19,6 +19,7 @@ void setup() {
     
       pinMode(led_rouge[i], OUTPUT);
    }
+   delay(3000);  //delais pour eviter les bugs sur le port serie 
 }
 
 //***************************************** Loop ***************************************** 

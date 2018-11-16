@@ -55,7 +55,7 @@ void loop() {
   if(temps1-temps2 > 0){  
 
     Serial.print(millis());
-    Serial.print(",");
+    Serial.print(";");
     Serial.print(rythmeC(temps1,temps2));  // appel de la fonction rythmeC qui calcul les BPM a partir de delta t
     Serial.println(";");
     temps2=temps1;  // t2 devient t1 pour calculer la prochaine periode

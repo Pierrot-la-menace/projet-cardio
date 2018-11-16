@@ -1,0 +1,5 @@
+Ce shema comporte un couple emetteur recepteur suivi d un filtre pour suprimer les parasites.
+Le signal est ensuite amplifié par le circuit lm324 avant d etre affiché par une LED et envoyé sur la broche A0 de l'arduino.
+La au rythme du coeur le sang se charge et se decharge en oxygene laissant ainsi pllus ou moin de lumiere passer de la LED jusque au phototransistor.
+Nous avons du modifié la resistance de la LED infrarouge qui était beaucoup trop elevée pour que cette derniere s'allume (2k2 ohm que nous avons changé par 39 ohm en suivant la lois d ohm )
+Nous avons également ajouté un potentiometre sur le pin A1 pour regler le seuil de detection des battement cardiaques dans le programme.
